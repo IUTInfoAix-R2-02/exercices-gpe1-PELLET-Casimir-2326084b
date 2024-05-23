@@ -71,8 +71,9 @@ public class Palette extends Application {
 
         nbFois = new SimpleIntegerProperty();
         message = new SimpleStringProperty();
-        couleurPanneau = new SimpleStringProperty("#000000");
+        couleurPanneau = new SimpleStringProperty("#ffffff");
 
+        createBinding();
 
         vert.setOnAction(event -> {
             couleurPanneau.set("#00ff00");
@@ -105,10 +106,12 @@ public class Palette extends Application {
         primaryStage.show();
     }
     private void createBinding(){
-        texteDuHaut.textProperty().bind(Bindings.concat(message, " choisi ", nbFois, " fois"));
-        panneau.styleProperty().bind(Bindings.concat("-fx-background-color:", couleurPanneau));
         BooleanProperty pasEncoreDeClic = new SimpleBooleanProperty();
-        pasEncoreDeClic.bind(Bindings.);
+        pasEncoreDeClic.bind(nbFois.isNotEqualTo(0));
+        texteDuHaut.textProperty().bind(Bindings.when(pasEncoreDeClic).then(Bindings.concat(message, " choisi ", nbFois, " fois")).otherwise("Cliquez sur un bouton"));
+        panneau.styleProperty().bind(Bindings.concat("-fx-background-color:", couleurPanneau));
+        texteDuBas.textProperty().bind(Bindings.when(pasEncoreDeClic).then(Bindings.concat("Le ",message," est une jolie couleur !")).otherwise(""));
+        texteDuBas.styleProperty().bind(Bindings.concat("-fx-text-fill:", couleurPanneau));
     }
 }
 
