@@ -1,6 +1,12 @@
 package fr.amu.iut.exercice1;
 
 import javafx.application.Application;
+import javafx.beans.binding.Binding;
+import javafx.beans.binding.Bindings;
+import javafx.beans.property.BooleanProperty;
+import javafx.beans.property.SimpleBooleanProperty;
+import javafx.beans.property.SimpleIntegerProperty;
+import javafx.beans.property.SimpleStringProperty;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
@@ -32,6 +38,12 @@ public class Palette extends Application {
     private HBox boutons;
 
     private Label texteDuBas;
+    private SimpleIntegerProperty nbFois;
+    private SimpleStringProperty message;
+    private SimpleStringProperty couleurPanneau;
+
+
+
 
 
     @Override
@@ -57,7 +69,29 @@ public class Palette extends Application {
         rouge = new Button("Rouge");
         bleu = new Button("Bleu");
 
-        /* VOTRE CODE ICI */
+        nbFois = new SimpleIntegerProperty();
+        message = new SimpleStringProperty();
+        couleurPanneau = new SimpleStringProperty("#000000");
+
+
+        vert.setOnAction(event -> {
+            couleurPanneau.set("#00ff00");
+            nbFois.setValue(++nbVert);
+            message.setValue("Vert");
+        });
+
+        bleu.setOnAction(event -> {
+            couleurPanneau.set("#0000ff");
+            nbFois.setValue(++nbBleu);
+            message.setValue("Bleu");
+        });
+
+        rouge.setOnAction(event -> {
+            couleurPanneau.set("#ff0000");
+            nbFois.setValue(++nbRouge);
+            message.setValue("Rouge");
+        });
+
 
         boutons.getChildren().addAll(vert, rouge, bleu);
 
@@ -69,6 +103,12 @@ public class Palette extends Application {
 
         primaryStage.setScene(scene);
         primaryStage.show();
+    }
+    private void createBinding(){
+        texteDuHaut.textProperty().bind(Bindings.concat(message, " choisi ", nbFois, " fois"));
+        panneau.styleProperty().bind(Bindings.concat("-fx-background-color:", couleurPanneau));
+        BooleanProperty pasEncoreDeClic = new SimpleBooleanProperty();
+        pasEncoreDeClic.bind(Bindings.);
     }
 }
 

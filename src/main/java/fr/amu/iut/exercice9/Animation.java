@@ -7,7 +7,7 @@ import javafx.scene.layout.BorderPane;
 import javafx.stage.Stage;
 import javafx.util.Duration;
 
-public class Animation extends Application {
+public class  Animation extends Application {
 
     @Override
     public void start(Stage primaryStage) throws Exception {
