@@ -1,4 +1,4 @@
-package fr.amu.iut.exercice4;
+package fr.amu.iut.exercice14;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -15,6 +15,14 @@ public class Personne {
         this.nom = nom;
         this.age = new SimpleIntegerProperty(age);
         this.villeDeNaissance = new SimpleStringProperty("Paris");
+    }
+
+    public IntegerProperty getAge() {
+        return age;
+    }
+
+    public StringProperty getVilleDeNaissance() {
+        return villeDeNaissance;
     }
 
     public void setAge(int age) {

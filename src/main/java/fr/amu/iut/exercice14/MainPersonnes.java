@@ -1,5 +1,6 @@
-package fr.amu.iut.exercice4;
+package fr.amu.iut.exercice14;
 
+import javafx.beans.Observable;
 import javafx.beans.binding.IntegerBinding;
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
@@ -18,11 +19,51 @@ public class MainPersonnes {
 
     public static void main(String[] args) {
 
-        lesPersonnes = new SimpleListProperty<>(FXCollections.observableArrayList());
+        lesPersonnes = new SimpleListProperty<>(FXCollections.observableArrayList(personne -> new Observable[]{
+                personne.getAge(), personne.getVilleDeNaissance()
+        }));
         ageMoyen = new SimpleIntegerProperty(0);
+        nbParisiens = new SimpleIntegerProperty(0);
 
+        calculnbParisiens = new IntegerBinding() {
+            {
+                this.bind(lesPersonnes);
+            }
+            protected int computeValue() {
+                int cmp = 0;
+                if (lesPersonnes.getSize() == 0) {
+                    return 0;
+                }
+                for (Personne p : lesPersonnes) {
+                    if (p.getVilleDeNaissance().get()=="Paris") ++ cmp;
+                }
+                return cmp;
+            }
+        };
+        nbParisiens.bind(calculnbParisiens);
+        calculAgeMoyen = new IntegerBinding() {
+            // constructeur de la classe interne anonyme
+            {
+                this.bind(lesPersonnes); // appel du constructeur de la classe mère (DoubleBinding)
+            }
+
+            @Override
+            protected int computeValue() {
+                int moy = 0;
+                int cmp = 0;
+                if (lesPersonnes.getSize() == 0) {
+                    return 0;
+                }
+                for (Personne p : lesPersonnes) {
+                   moy += p.getAge().get();
+                   ++cmp;
+                }
+               return moy/cmp;
+            }
+        };
+        ageMoyen.bind(calculAgeMoyen);
         question1();
-//        question2();
+        question2();
     }
 
     public static void question1() {
